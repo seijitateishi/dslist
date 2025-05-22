@@ -1,11 +1,12 @@
 package com.seiji.dslist.services;
 
+import com.seiji.dslist.dto.GameDTO;
 import com.seiji.dslist.dto.GameMinDTO;
 import com.seiji.dslist.entities.Game;
 import com.seiji.dslist.repositories.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,9 +16,16 @@ public class GameService {
     @Autowired
     private GameRepository gameRepository;
 
-
+    @Transactional(readOnly = true)
     public List<GameMinDTO> findAll(){
         List<Game> result = gameRepository.findAll();
         return result.stream().map(GameMinDTO::new).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public GameDTO findById(Long id) {
+        Game game = gameRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Game not found"));
+        return new GameDTO(game);
     }
 }
