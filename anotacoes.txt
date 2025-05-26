@@ -1,0 +1,3 @@
+colocar autorizacao e login
+cada usuario tem suas listas para ranquealas
+possivel criar listas personalizadas

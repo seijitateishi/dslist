@@ -2,13 +2,11 @@ package com.seiji.dslist.controllers;
 
 import com.seiji.dslist.dto.GameListDTO;
 import com.seiji.dslist.dto.GameMinDTO;
+import com.seiji.dslist.dto.ReplacementDTO;
 import com.seiji.dslist.services.GameListService;
 import com.seiji.dslist.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,4 +28,13 @@ public class GameListController {
     public List<GameMinDTO> findByList(@PathVariable Long id) {
         return gameService.findByList(id);
     }
-}
+
+    @PostMapping(value = "/{id}/replacement")
+    public void move(@PathVariable Long id,
+                     @RequestBody ReplacementDTO body) {
+        gameListService.move(id, body.getFromIndex(), body.getToIndex());
+    }
+
+    }
+
+
