@@ -3,11 +3,7 @@ package com.seiji.dslist.game.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "tb_game")
 public class Game {

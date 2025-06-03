@@ -1,6 +1,8 @@
 package com.seiji.dslist.game.application.services;
 
 import com.seiji.dslist.game.domain.GameList;
+import com.seiji.dslist.game.domain.GamePosition;
+import com.seiji.dslist.game.domain.GamePositionId;
 import com.seiji.dslist.game.infrastructure.GameListRepository;
 import com.seiji.dslist.game.infrastructure.GameMinProjection;
 import com.seiji.dslist.game.infrastructure.GameRepository;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GameListService {
@@ -32,7 +35,21 @@ public class GameListService {
         int min = Math.min(fromIndex, toIndex);
         int max = Math.max(fromIndex, toIndex);
         for (int i = min; i <= max; i++) {
-            gameListRepository.updateBelongingPosition(listId, list.get(i).getId(), i);
+            gameListRepository.updateGamePosition(listId, list.get(i).getId(), i);
         }
+
+
+    }
+
+
+    public void addGameToList(Long listId, Long gameId) {
+        Optional<GameList> gameListOptional = gameListRepository.findById(listId);
+            if (gameListOptional.isPresent()) {
+                GameList gameList = gameListOptional.get();
+                gameList.addGame(gameId,gameList.getGamePositions().size());
+                gameListRepository.save(gameList);
+            } else {
+                throw new IllegalArgumentException("Game list not found");
+            }
     }
 } 

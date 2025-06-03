@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -24,9 +26,19 @@ public class GameList {
     @JoinColumn(nullable = true, name = "user_id")
     private User user;
 
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<GamePosition> gamePositions = new ArrayList<>();
+
     public GameList(String name,User user) {
         this.name = name;
         this.user = user;
+    }
+
+    public void addGame(Long gameId, Integer position) {
+        GamePosition gamePosition = new GamePosition(new GamePositionId(this.id, gameId), position);
+        this.gamePositions.add(gamePosition);
+
     }
 
     @Override
@@ -44,4 +56,6 @@ public class GameList {
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
+
+
 } 

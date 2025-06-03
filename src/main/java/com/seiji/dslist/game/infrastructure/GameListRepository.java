@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 public interface GameListRepository extends JpaRepository<GameList, Long> {
     @Modifying
     @Transactional
-    @Query(nativeQuery = true, value = "UPDATE tb_belonging SET position = :newPosition WHERE list_id = :listId AND game_id = :gameId")
-    void updateBelongingPosition(Long listId, Long gameId, Integer newPosition);
+    @Query(nativeQuery = true, value = "UPDATE tb_game_position SET position = :newPosition WHERE list_id = :listId AND game_id = :gameId")
+    void updateGamePosition(Long listId, Long gameId, Integer newPosition);
 } 
