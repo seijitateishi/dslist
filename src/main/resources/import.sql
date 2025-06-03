@@ -23,3 +23,7 @@ INSERT INTO tb_belonging (list_id, game_id, position) VALUES (2, 7, 1);
 INSERT INTO tb_belonging (list_id, game_id, position) VALUES (2, 8, 2);
 INSERT INTO tb_belonging (list_id, game_id, position) VALUES (2, 9, 3);
 INSERT INTO tb_belonging (list_id, game_id, position) VALUES (2, 10, 4);
+
+--insert into tb_user(role, id, password, username) values (1, 1, '123', 'seiji');
+--insert into tb_user(role, id, password, username) values (0, 2, '$2a$10$zOrotkWNWa3NFwSL76uazOOskNszYyMCObu6d0MvkKIQcDij4k/V6', 'gaio');
+--insert into tb_user(role, id, password, username) values (0, 3, '$2a$10$BKM7NLKc1SMsxjDghiE1OezwpRiTuSESOBw0/kPgjCuVIWKkEZEka', 'pano');

@@ -1,7 +1,7 @@
 package com.seiji.dslist.infra.security;
 
-import com.seiji.dslist.repositories.UserRepository;
-import com.seiji.dslist.services.TokenService;
+import com.seiji.dslist.user.infrastructure.UserRepository;
+import com.seiji.dslist.user.application.services.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;

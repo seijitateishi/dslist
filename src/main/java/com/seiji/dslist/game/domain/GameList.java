@@ -24,6 +24,11 @@ public class GameList {
     @JoinColumn(nullable = true, name = "user_id")
     private User user;
 
+    public GameList(String name,User user) {
+        this.name = name;
+        this.user = user;
+    }
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;

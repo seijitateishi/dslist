@@ -3,6 +3,7 @@ package com.seiji.dslist.user.domain;
 import com.seiji.dslist.game.domain.GameList;
 import com.seiji.dslist.user.enums.Role;
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,7 @@ import java.util.Set;
 @Entity
 @Table(name = "tb_user")
 public class User implements UserDetails {
+    @Getter
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +28,8 @@ public class User implements UserDetails {
 
     private Role role;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @Getter
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<GameList> gameLists = new LinkedHashSet<>();
 
     public User(String username, String password, Role role) {
