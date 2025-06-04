@@ -13,4 +13,5 @@ public record GameListDTO(
                 gameList.getName()
         );
     }
+
 } 
