@@ -67,6 +67,12 @@ public class GameListService {
     }
 
     public void addGameToListOfUser(Long listId, Long gameId, User user) {
+        if (gameId < 1) {
+            throw new IllegalArgumentException("Invalid game ID");
+        }
+        if (!gameRepository.existsById(gameId)) {
+            throw new IllegalArgumentException("Game with ID " + gameId + " does not exist");
+        }
         GameList gameList = user.getGameLists().stream()
                 .filter(list -> list.getId().equals(listId))
                 .findFirst()
@@ -91,7 +97,7 @@ public class GameListService {
         }
     }
 
-    public List<GameListDTO> getListsByUserId(Long userId, User user) {
+    public List<GameListDTO> getListsByUser(User user) {
         return user.getGameLists().stream().map(GameListDTO::new).toList();
     }
 
@@ -114,12 +120,8 @@ public class GameListService {
         gameListRepository.save(gameList);
     }
 
-    /*public Float getAveragePosition(Long listId) {
-        List<GameListDTO> list = this.findAll();
-        float totalPosition = 0f;
-        for (GameMinProjection game : list) {
-            totalPosition += game.getPosition();
-        }
-        return totalPosition / list.size();
-    }*/
+    public List<Long> findAllGamesRating() {
+        return gameListRepository.findAllGamesRating();
+    }
+
 }

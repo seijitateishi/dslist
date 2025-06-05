@@ -46,9 +46,9 @@ public class GameListController {
         return "List with ID " + id + " deleted successfully.";
     }
 
-    @GetMapping(value = "/users/{id}")
-    public List<GameListDTO> getUserLists(@PathVariable Long id, @AuthenticationPrincipal User user) {
-        return gameListService.getListsByUserId(id, user);
+    @GetMapping(value = "/user")
+    public List<GameListDTO> getUserLists(@AuthenticationPrincipal User user) {
+        return gameListService.getListsByUser(user);
     }
 
     @PostMapping(value = "/{listId}/game/{gameId}")
@@ -63,5 +63,8 @@ public class GameListController {
         return "List with ID " + listId + " updated to name " + newName + " successfully.";
     }
 
-
+    @GetMapping(value = "/rating")
+    public List<Long> getAllGamesRating() {
+        return gameListService.findAllGamesRating();
+    }
 }
