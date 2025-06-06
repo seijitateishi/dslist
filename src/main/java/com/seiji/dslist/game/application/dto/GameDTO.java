@@ -1,6 +1,7 @@
 package com.seiji.dslist.game.application.dto;
 
 import com.seiji.dslist.game.domain.Game;
+import lombok.Getter;
 
 public record GameDTO(
         Long id,

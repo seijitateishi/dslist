@@ -31,7 +31,13 @@ public class GameListService {
         return result.stream().map(GameListDTO::new).toList();
     }
 
-    public void move(Long listId, int fromIndex, int toIndex) {
+    public void move(Long listId, int fromIndex, int toIndex, User user) {
+        if (fromIndex < 0 || toIndex >= user.getGameLists().size()) {
+            throw new IndexOutOfBoundsException("Invalid indices for the game list");
+        }
+        if (!user.getGameLists().stream().anyMatch(list -> list.getId().equals(listId))) {
+            throw new IllegalArgumentException("List with ID " + listId + " does not exist for the user");
+        }
         List<GameMinProjection> list = gameRepository.searchByList(listId);
         GameMinProjection obj = list.remove(fromIndex);
         list.add(toIndex, obj);
@@ -120,8 +126,18 @@ public class GameListService {
         gameListRepository.save(gameList);
     }
 
-    public List<Long> findAllGamesRating() {
-        return gameListRepository.findAllGamesRating();
-    }
+    public void removeGameFromList(Long listId, Long gameId, User user) {
+        GameList gameList = user.getGameLists().stream()
+                .filter(list -> list.getId().equals(listId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("List not found"));
 
+        if (gameList.getGamePositions().stream()
+                .noneMatch(gamePos -> gamePos.getId().getGameId().equals(gameId))) {
+            throw new IllegalArgumentException("Game with ID " + gameId + " does not exist in the list");
+        }
+
+        gameList.removeGame(gameId);
+        gameListRepository.save(gameList);
+    }
 }

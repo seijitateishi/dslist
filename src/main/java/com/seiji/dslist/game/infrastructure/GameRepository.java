@@ -16,4 +16,41 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 		ORDER BY tb_game_position.position
 		""")
     List<GameMinProjection> searchByList(Long listId);
+
+	@Query(nativeQuery = true, value = """
+        SELECT 
+            COALESCE(SUM(
+                CASE 
+                    WHEN gp.position = 0 THEN 5
+                    WHEN gp.position = 1 THEN 4
+                    WHEN gp.position = 2 THEN 3
+                    WHEN gp.position = 3 THEN 2
+                    WHEN gp.position = 4 THEN 1
+                    ELSE 0
+                END
+            ), 0) AS rating
+        FROM tb_game g
+        LEFT JOIN tb_game_position gp ON g.id = gp.game_id
+        GROUP BY g.id
+        ORDER BY g.id
+        """)
+	List<Long> findAllGamesRating();
+
+
+	@Query(nativeQuery = true, value = """
+        SELECT 
+            COALESCE(SUM(
+                CASE 
+                    WHEN gp.position = 0 THEN 5
+                    WHEN gp.position = 1 THEN 4
+                    WHEN gp.position = 2 THEN 3
+                    WHEN gp.position = 3 THEN 2
+                    WHEN gp.position = 4 THEN 1
+                    ELSE 0
+                END
+            ), 0) AS rating
+        FROM tb_game_position gp
+        WHERE gp.game_id = :gameId
+        """)
+	Long getGameRating(Long gameId);
 } 

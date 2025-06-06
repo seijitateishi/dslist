@@ -31,8 +31,8 @@ public class GameListController {
     }
 
     @PostMapping(value = "/{id}/replacement")
-    public void move(@PathVariable Long id, @RequestBody ReplacementDTO body) {
-        gameListService.move(id, body.getFromIndex(), body.getToIndex());
+    public void move(@PathVariable Long id, @RequestBody ReplacementDTO body, @AuthenticationPrincipal User user) {
+        gameListService.move(id, body.getFromIndex(), body.getToIndex(), user);
     }
 
     @PostMapping(value = "{name}")
@@ -63,8 +63,9 @@ public class GameListController {
         return "List with ID " + listId + " updated to name " + newName + " successfully.";
     }
 
-    @GetMapping(value = "/rating")
-    public List<Long> getAllGamesRating() {
-        return gameListService.findAllGamesRating();
+    @DeleteMapping(value = "/{listId}/game/{gameId}")
+    public String removeGameFromList(@PathVariable Long listId, @PathVariable Long gameId, @AuthenticationPrincipal User user) {
+        gameListService.removeGameFromList(listId, gameId, user);
+        return "Game with ID " + gameId + " removed from list " + listId + " successfully.";
     }
 }

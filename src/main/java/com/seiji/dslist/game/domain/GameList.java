@@ -41,6 +41,8 @@ public class GameList {
 
     }
 
+
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
@@ -57,5 +59,7 @@ public class GameList {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
 
-
-} 
+    public void removeGame(Long gameId) {
+        this.gamePositions.removeIf(gamePosition -> gamePosition.getId().getGameId().equals(gameId));
+    }
+}
